@@ -1,0 +1,52 @@
+:root {
+  --size: 40px;
+}
+
+.Dimensions {
+  margin: 10px;
+}
+
+.LevelBuilder {
+  width: 100%;
+  overflow-x: scroll;
+  margin: 10px;
+}
+
+.LevelBuilder__Row {
+  height: var(--size);
+}
+
+.LevelBuilder__Cell {
+  height: var(--size);
+  width: var(--size);
+  background-color: cornflowerblue;
+  display: inline-block;
+}
+
+.Cell__Image {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: block;
+}
+
+.LevelBuilder__Cell:hover {
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.TypeSelection {
+  margin: 10px;
+}
+
+.TypeSelection__Img {
+  height: var(--size);
+  width: var(--size);
+  margin-right: 10px;
+}
+
+.TypeSelection__Img--active {
+  border: 4px solid cornflowerblue;
+}
