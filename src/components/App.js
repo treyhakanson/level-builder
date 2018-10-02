@@ -27,13 +27,13 @@ const SOURCES = [
 
 class Cell extends Component {
   static defaultProps = {
-    typeIndex: 0
+    type: 0
   };
 
   render() {
     return (
       <div className="LevelBuilder__Cell" onClick={this.props.onClick}>
-        <img src={SOURCES[this.props.typeIndex]} className="Cell__Image" />
+        <img src={SOURCES[this.props.type]} className="Cell__Image" />
       </div>
     );
   }
@@ -43,7 +43,7 @@ class App extends Component {
   state = {
     width: 0,
     height: 0,
-    activeTypeIndex: 0,
+    activeType: 0,
     grid: []
   };
 
@@ -76,17 +76,17 @@ class App extends Component {
 
   _onClickCell = (i, j) => {
     let gridCopy = this._buildLevelGrid(true);
-    gridCopy[i][j].typeIndex = this.state.activeTypeIndex;
+    gridCopy[i][j].type = this.state.activeType;
     this.setState({ grid: gridCopy });
   };
 
   _changeType = i => {
-    this.setState({ activeTypeIndex: i });
+    this.setState({ activeType: i });
   };
 
   _downloadLevel = () => {
     const csvString = this.state.grid
-      .map(row => row.map(cell => cell.typeIndex || 0).join(","))
+      .map(row => row.map(cell => JSON.stringify(cell)).join(","))
       .join("\n");
     const blob = new Blob([csvString]);
     let a = window.document.createElement("a");
@@ -98,6 +98,10 @@ class App extends Component {
   };
 
   render() {
+    let typeSelectionClasses = ["TypeSelection"];
+    (!this.state.height || !this.state.width || !this.state.grid.length) &&
+      typeSelectionClasses.push("TypeSelection--inactive");
+
     return (
       <div className="App">
         <fieldset className="Dimensions">
@@ -143,10 +147,10 @@ class App extends Component {
             </div>
           ))}
         </div>
-        <div className="TypeSelection">
+        <div className={typeSelectionClasses.join(" ")}>
           {SOURCES.map((source, i) => {
             let classNames = ["TypeSelection__Img"];
-            this.state.activeTypeIndex === i &&
+            this.state.activeType === i &&
               classNames.push("TypeSelection__Img--active");
             return (
               <img
@@ -159,6 +163,7 @@ class App extends Component {
           })}
         </div>
         <button
+          className="DownloadLevel"
           type="button"
           onClick={this._downloadLevel}
           disabled={!this.state.grid.length}
