@@ -170,6 +170,22 @@ class App extends Component {
         >
           Download Level
         </button>
+        <div className="SchemaInfo">
+          <p>The JSON schema for each grid cell is as follows:</p>
+          <code>
+            {"{"}
+            <br />
+            <span className="SchemaInfo__Prop">"type": Number?,</span>
+            <br />
+            <span className="SchemaInfo__Prop">"items": [Number]?,</span>
+            <br />
+            <span className="SchemaInfo__Prop">"offsetX": Number?,</span>
+            <br />
+            <span className="SchemaInfo__Prop">"offsetY": Number?</span>
+            <br />
+            {"}"}
+          </code>
+        </div>
       </div>
     );
   }
