@@ -1,5 +1,6 @@
 {
   "name": "level-builder",
+  "homepage": "http://treyhakanson.github.io/level-builder",
   "version": "0.1.0",
   "dependencies": {
     "react": "^16.5.2",
