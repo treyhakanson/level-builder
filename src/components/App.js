@@ -77,6 +77,7 @@ class App extends Component {
   _onClickCell = (i, j) => {
     let gridCopy = this._buildLevelGrid(true);
     gridCopy[i][j].type = this.state.activeType;
+    gridCopy[i][j].collidable = true;
     this.setState({ grid: gridCopy });
   };
 
@@ -85,13 +86,22 @@ class App extends Component {
   };
 
   _downloadLevel = () => {
-    const csvString = this.state.grid
-      .map(row => row.map(cell => JSON.stringify(cell)).join(","))
-      .join("\n");
-    const blob = new Blob([csvString]);
+    let cells = [];
+    this.state.grid.forEach((row, i) => {
+      row.forEach((cell, j) => {
+        if (cell.type === undefined) {
+          return;
+        }
+        let cellCopy = { ...cell };
+        cellCopy.row = i;
+        cellCopy.column = j;
+        cells.push(cellCopy);
+      });
+    });
+    const blob = new Blob([JSON.stringify(cells)]);
     let a = window.document.createElement("a");
     a.href = window.URL.createObjectURL(blob, { type: "text/plain" });
-    a.download = "level.csv";
+    a.download = "level.json";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -175,7 +185,13 @@ class App extends Component {
           <code>
             {"{"}
             <br />
-            <span className="SchemaInfo__Prop">"type": Number?,</span>
+            <span className="SchemaInfo__Prop">"type": Number,</span>
+            <br />
+            <span className="SchemaInfo__Prop">"row": Number</span>
+            <br />
+            <span className="SchemaInfo__Prop">"column": Number</span>
+            <br />
+            <span className="SchemaInfo__Prop">"collidable": Boolean</span>
             <br />
             <span className="SchemaInfo__Prop">"items": [Number]?,</span>
             <br />
