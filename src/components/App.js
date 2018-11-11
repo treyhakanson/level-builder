@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+
+import { cellToXML } from "../utils/xml";
 import "../styles/App.css";
 
 import emptyImg from "../assets/empty-img.png";
@@ -11,6 +13,13 @@ import stairImg from "../assets/stair-img.png";
 import redKoopaImg from "../assets/red-koopa-img.png";
 import greenKoopaImg from "../assets/green-koopa-img.png";
 import goombaImg from "../assets/goomba-img.png";
+import hiddenImg from "../assets/hidden-img.png";
+import flagImg from "../assets/flag-img.png";
+import redMushroomImg from "../assets/red-mushroom-img.png";
+import greenMushroomImg from "../assets/green-mushroom-img.png";
+import starmanImg from "../assets/starman-img.png";
+import fireImg from "../assets/fire-img.png";
+import coinImg from "../assets/coin-img.png";
 
 const SOURCES = [
   emptyImg,
@@ -22,17 +31,57 @@ const SOURCES = [
   stairImg,
   redKoopaImg,
   greenKoopaImg,
-  goombaImg
+  goombaImg,
+  hiddenImg,
+  flagImg,
+  // Item indexes (start at 12)
+  greenMushroomImg,
+  redMushroomImg,
+  coinImg,
+  fireImg,
+  starmanImg
 ];
+
+const LEVEL_EXAMPLE = `
+<?xml version="1.0" encoding="utf-8"?>
+<LevelAsset>
+  <Height>int</Height>
+  <Width>int</Width>
+  <Entities>
+    <Item>
+      <EntityType>int</EntityType>
+      <Row>int</Row>
+      <Column>int</Column>
+      <OffsetX>int</OffsetX>
+      <OffsetY>int</OffsetY>
+      <EntityItems>
+        <Item>
+          <ItemType>int</ItemType>
+        </Item>
+      </EntityItems>
+    </Item>
+  </Entities>
+</LevelAsset>
+`;
 
 class Cell extends Component {
   static defaultProps = {
-    type: 0
+    type: 0,
+    items: []
   };
 
   render() {
+    let extraProps = {};
+    if (this.props.items.length) {
+      extraProps.itemcount = this.props.items.length;
+    }
+
     return (
-      <div className="LevelBuilder__Cell" onClick={this.props.onClick}>
+      <div
+        className="LevelBuilder__Cell"
+        onClick={this.props.onClick}
+        {...extraProps}
+      >
         <img src={SOURCES[this.props.type]} className="Cell__Image" />
       </div>
     );
@@ -76,8 +125,14 @@ class App extends Component {
 
   _onClickCell = (i, j) => {
     let gridCopy = this._buildLevelGrid(true);
-    gridCopy[i][j].type = this.state.activeType;
-    gridCopy[i][j].collidable = true;
+    if (this.state.activeType > 11) {
+      gridCopy[i][j].items = gridCopy[i][j].items || [];
+      gridCopy[i][j].items.push(this.state.activeType - 12);
+      gridCopy[i][j].collidable = true;
+    } else {
+      gridCopy[i][j].type = this.state.activeType;
+      gridCopy[i][j].collidable = true;
+    }
     this.setState({ grid: gridCopy });
   };
 
@@ -95,23 +150,51 @@ class App extends Component {
         let cellCopy = { ...cell };
         cellCopy.row = i;
         cellCopy.column = j;
-        cells.push(cellCopy);
+        cells.push(cellToXML(cellCopy));
       });
     });
-    const blob = new Blob([JSON.stringify(cells)]);
+    const xml =
+      '<?xml version="1.0" encoding="utf-8"?>' +
+      "<LevelAsset>" +
+      `<Height>${this.state.grid.length * 16}</Height>` +
+      `<Width>${this.state.grid[0].length * 16}</Width>` +
+      `<Entities>${cells.join("\n")}</Entities>` +
+      "</LevelAsset>";
+    const blob = new Blob([xml]);
     let a = window.document.createElement("a");
     a.href = window.URL.createObjectURL(blob, { type: "text/plain" });
-    a.download = "level.json";
+    a.download = "LevelDefinition.xml";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   };
 
-  render() {
+  _renderSources = (start, stop) => {
     let typeSelectionClasses = ["TypeSelection"];
     (!this.state.height || !this.state.width || !this.state.grid.length) &&
       typeSelectionClasses.push("TypeSelection--inactive");
 
+    return (
+      <div className={typeSelectionClasses.join(" ")}>
+        {SOURCES.slice(start, stop).map((source, i) => {
+          i += start;
+          let classNames = ["TypeSelection__Img"];
+          this.state.activeType === i &&
+            classNames.push("TypeSelection__Img--active");
+          return (
+            <img
+              key={i}
+              src={source}
+              onClick={() => this._changeType(i)}
+              className={classNames.join(" ")}
+            />
+          );
+        })}
+      </div>
+    );
+  };
+
+  render() {
     return (
       <div className="App">
         <fieldset className="Dimensions">
@@ -157,21 +240,8 @@ class App extends Component {
             </div>
           ))}
         </div>
-        <div className={typeSelectionClasses.join(" ")}>
-          {SOURCES.map((source, i) => {
-            let classNames = ["TypeSelection__Img"];
-            this.state.activeType === i &&
-              classNames.push("TypeSelection__Img--active");
-            return (
-              <img
-                key={i}
-                src={source}
-                onClick={() => this._changeType(i)}
-                className={classNames.join(" ")}
-              />
-            );
-          })}
-        </div>
+        {this._renderSources(0, 12)}
+        {this._renderSources(12, SOURCES.length)}
         <button
           className="DownloadLevel"
           type="button"
@@ -181,26 +251,10 @@ class App extends Component {
           Download Level
         </button>
         <div className="SchemaInfo">
-          <p>The JSON schema for each grid cell is as follows:</p>
-          <code>
-            {"{"}
-            <br />
-            <span className="SchemaInfo__Prop">"type": Number,</span>
-            <br />
-            <span className="SchemaInfo__Prop">"row": Number</span>
-            <br />
-            <span className="SchemaInfo__Prop">"column": Number</span>
-            <br />
-            <span className="SchemaInfo__Prop">"collidable": Boolean</span>
-            <br />
-            <span className="SchemaInfo__Prop">"items": [Number]?,</span>
-            <br />
-            <span className="SchemaInfo__Prop">"offsetX": Number?,</span>
-            <br />
-            <span className="SchemaInfo__Prop">"offsetY": Number?</span>
-            <br />
-            {"}"}
-          </code>
+          <p>The XML schema for the level is as follows:</p>
+          <pre>
+            <code>{LEVEL_EXAMPLE}</code>
+          </pre>
         </div>
       </div>
     );

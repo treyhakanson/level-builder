@@ -20,10 +20,27 @@
 }
 
 .LevelBuilder__Cell {
+  position: relative;
   height: var(--size);
   width: var(--size);
   background-color: var(--main-color);
   display: inline-block;
+}
+
+.LevelBuilder__Cell[itemcount]::after {
+  content: attr(itemcount);
+  font-size: 14px;
+  position: absolute;
+  color: white;
+  background-color: green;
+  line-height: 20px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 20px;
+  border-radius: 50%;
+  width: 20px;
+  text-align: center;
 }
 
 .Cell__Image {
