@@ -20,6 +20,8 @@ body {
 
 .App {
   padding: 50px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .Header {
@@ -111,10 +113,11 @@ body {
 
 .LevelBuilder__Cell[itemcount]::after {
   content: attr(itemcount);
-  font-size: 14px;
+  font-size: 11px;
   position: absolute;
-  color: white;
-  background-color: green;
+  color: var(--main-color);
+  font-weight: var(--bold-weight);
+  background-color: white;
   line-height: 20px;
   left: 50%;
   top: 50%;
@@ -123,6 +126,7 @@ body {
   border-radius: 50%;
   width: 20px;
   text-align: center;
+  box-shadow: var(--shadow);
 }
 
 .Cell__Image {
@@ -172,13 +176,5 @@ body {
 }
 
 .DownloadLevel {
-  margin-left: var(--spacing);
-}
-
-.SchemaInfo {
-  margin-left: var(--spacing);
-}
-
-.SchemaInfo__Prop {
   margin-left: var(--spacing);
 }

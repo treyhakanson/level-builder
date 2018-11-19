@@ -92,6 +92,11 @@ export default class LevelBuilder extends Component {
       content = <p className="Placeholder">Please select dimensions above.</p>;
     }
 
-    return <div className="Well LevelBuilder">{content}</div>;
+    return (
+      <div className="Well LevelBuilder">
+        <h3>Level Builder</h3>
+        {content}
+      </div>
+    );
   }
 }

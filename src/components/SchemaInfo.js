@@ -9,6 +9,7 @@ export default class SchemaInfo extends Component {
     return (
       <div className="Well">
         <div className="SchemaInfo">
+          <h3>Output Schema</h3>
           <p>The XML schema for the level is as follows:</p>
           <Highlight className="xml">{LEVEL_EXAMPLE}</Highlight>
         </div>
