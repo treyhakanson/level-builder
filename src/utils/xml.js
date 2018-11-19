@@ -2,7 +2,7 @@ function itemToXML(type) {
   return "<Item>" + `<ItemType>${type}</ItemType>` + "</Item>";
 }
 
-export function cellToXML({
+function cellToXML({
   type,
   row,
   column,
@@ -22,4 +22,27 @@ export function cellToXML({
     "</EntityItems>" +
     "</Item>"
   );
+}
+
+export function gridToXML(grid) {
+  let cells = [];
+  grid.forEach((row, i) => {
+    row.forEach((cell, j) => {
+      if (cell.type === undefined) {
+        return;
+      }
+      let cellCopy = { ...cell };
+      cellCopy.row = i;
+      cellCopy.column = j;
+      cells.push(cellToXML(cellCopy));
+    });
+  });
+  const xml =
+    '<?xml version="1.0" encoding="utf-8"?>' +
+    "<LevelAsset>" +
+    `<Height>${grid.length * 16}</Height>` +
+    `<Width>${grid[0].length * 16}</Width>` +
+    `<Entities>${cells.join("\n")}</Entities>` +
+    "</LevelAsset>";
+  return xml;
 }

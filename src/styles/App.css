@@ -3,13 +3,95 @@
   --spacing: 10px;
   --main-color: cornflowerblue;
   --grey: #d5d5d5;
+  --shadow: 0 0 10px 0 rgba(32, 32, 32, 0.15);
+  --font-family: "Noto Sans SC", sans-serif;
+  --bold-weight: 700;
 }
 
-.Dimensions {
-  margin: var(--spacing);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.LevelBuilder {
+body {
+  font-family: var(--font-family);
+}
+
+.App {
+  padding: 50px;
+}
+
+.Header {
+  margin-left: var(--spacing);
+}
+
+.Dimensions__Fields {
+  margin: var(--spacing) 0;
+}
+
+.Inpt {
+  border-radius: 3px;
+  border: 1px solid var(--grey);
+  padding: 10px;
+}
+
+.Inpt__Label {
+  margin-left: var(--spacing);
+}
+
+.Dimensions__Fields {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.Btn {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 150px;
+  height: 35px;
+  border-radius: 17.5px;
+  font-size: 14px;
+  border: 2px solid var(--main-color);
+  color: var(--main-color);
+  font-weight: bold;
+  box-shadow: var(--shadow);
+  line-height: 17.5px;
+  transition: 200ms all;
+}
+
+.Btn:hover {
+  cursor: pointer;
+  color: white;
+  background-color: var(--main-color);
+  transition: 150ms all;
+}
+
+.Dimensions__Text--by {
+  height: 25px;
+  width: 25px;
+  background-color: var(--main-color);
+  box-shadow: var(--shadow);
+  border-radius: 50%;
+  color: white;
+  font-weight: var(--bold-weight);
+  display: inline-block;
+  text-align: center;
+  line-height: 19px;
+  margin: 0 20px;
+}
+
+.Well {
+  margin: 25px 0;
+  padding: 25px;
+  border: none;
+  background-color: white;
+  border-radius: 3px;
+  box-shadow: var(--shadow);
+}
+
+.LevelBuilder__Content {
   width: 100%;
   overflow-x: scroll;
   margin: var(--spacing);
@@ -58,7 +140,8 @@
 }
 
 .TypeSelection {
-  margin: var(--spacing);
+  margin-top: var(--spacing);
+  margin-bottom: 20px;
 }
 
 .TypeSelection--inactive .TypeSelection__Img {
@@ -67,25 +150,25 @@
 }
 
 .TypeSelection__Img {
+  box-shadow: var(--shadow);
+  padding: 5px;
   height: var(--size);
   width: var(--size);
   margin-right: var(--spacing);
-  border-width: 4px;
-  border-style: solid;
-  border-color: var(--grey);
+  border-radius: 3px;
+  opacity: 0.6;
+  trnasition: 200ms all;
 }
 
 .TypeSelection__Img:hover {
   cursor: pointer;
-  opacity: 0.75;
+  opacity: 1;
+  trnasition: 150ms all;
 }
 
 .TypeSelection__Img--active {
-  border-color: var(--main-color);
-}
-
-.TypeSelection--inactive .TypeSelection__Img--active {
-  border-color: var(--grey);
+  opacity: 1;
+  box-shadow: 0px 0px 15px 4px rgba(32, 32, 32, 0.15);
 }
 
 .DownloadLevel {
