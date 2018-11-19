@@ -3,12 +3,14 @@ import PropTypes from "prop-types";
 
 import { SOURCES } from "../constants";
 import GridCell from "./GridCell";
+import AttributeEditor from "./AttributeEditor";
 
 export default class LevelBuilder extends Component {
   static propTypes = {
     grid: PropTypes.array.isRequired,
     onClickCell: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    onUpdateElement: PropTypes.func.isRequired
   };
 
   state = {
@@ -48,7 +50,7 @@ export default class LevelBuilder extends Component {
   };
 
   render() {
-    const { grid, onClickCell, onSubmit } = this.props;
+    const { grid, onClickCell, onSubmit, onUpdateElement } = this.props;
     const { activeType } = this.state;
     let content;
 
@@ -78,6 +80,7 @@ export default class LevelBuilder extends Component {
           {this._renderSources(0, 12)}
           <p>Items</p>
           {this._renderSources(12, SOURCES.length)}
+          <AttributeEditor grid={grid} onUpdateElement={onUpdateElement} />
           <button
             className="Btn DownloadLevel"
             type="button"

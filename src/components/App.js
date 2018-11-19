@@ -63,6 +63,12 @@ class App extends Component {
     document.body.removeChild(a);
   };
 
+  _onUpdateElement = (i, j, key, value) => {
+    let gridCopy = this._buildLevelGrid(true);
+    gridCopy[i][j][key] = value;
+    this.setState({ grid: gridCopy });
+  };
+
   render() {
     const { height, width, grid } = this.state;
 
@@ -76,6 +82,7 @@ class App extends Component {
           grid={grid}
           onClickCell={this._onClickCell}
           onSubmit={this._downloadLevel}
+          onUpdateElement={this._onUpdateElement}
         />
         <SchemaInfo />
       </div>

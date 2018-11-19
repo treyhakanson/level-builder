@@ -73,20 +73,30 @@ body {
 .Dimensions__Text--by {
   height: 25px;
   width: 25px;
-  background-color: var(--main-color);
+  background-color: white;
   box-shadow: var(--shadow);
   border-radius: 50%;
-  color: white;
+  color: var(--main-color);
   font-weight: var(--bold-weight);
   display: inline-block;
   text-align: center;
   line-height: 19px;
   margin: 0 20px;
+  box-shadow: var(--shadow);
 }
 
 .Well {
   margin: 25px 0;
   padding: 25px;
+  border: none;
+  background-color: white;
+  border-radius: 3px;
+  box-shadow: var(--shadow);
+}
+
+.Well--small {
+  margin-bottom: var(--spacing);
+  padding: var(--spacing);
   border: none;
   background-color: white;
   border-radius: 3px;
@@ -175,6 +185,75 @@ body {
   box-shadow: 0px 0px 15px 4px rgba(32, 32, 32, 0.15);
 }
 
-.DownloadLevel {
+.AttributeEditor {
+  margin-bottom: var(--spacing);
+}
+
+.AttributeEditor__Elements {
+  max-height: 500px;
+  padding: var(--spacing);
+  margin-top: var(--spaing);
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-bottom: -10px;
+  overflow: auto;
+}
+
+.AttributeEditor__Element {
+  display: flex;
+  align-items: flex-start;
+}
+
+.AttributeEditor__ElementCol:nth-child(2) {
+  flex-grow: 2;
   margin-left: var(--spacing);
+}
+
+.AttributeEditor__ElementCol--image {
+}
+
+.AttributeEditor__ElementCol--image img {
+  width: 30px;
+  height: 30px;
+  height: 100%;
+  width: 100%;
+}
+
+.Element__Field {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.Element__Item {
+  height: 25px;
+  width: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100px;
+  margin-bottom: var(--spacing);
+  padding: 20px var(--spacing);
+}
+
+.Element__ItemImage {
+  height: 25px;
+  width: 25px;
+  display: block;
+}
+
+.Element__Remove {
+  background-color: rgb(237, 67, 47);
+  color: white;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  line-height: 12px;
+}
+
+.Element__Remove:hover {
+  cursor: pointer;
+  opacity: 0.75;
 }
