@@ -6,6 +6,7 @@ import LevelBuilder from "./LevelBuilder";
 import SchemaInfo from "./SchemaInfo";
 import Dimensions from "./Dimensions";
 
+import bg from "../assets/bg.png";
 import "../styles/App.css";
 
 class App extends Component {
@@ -73,18 +74,20 @@ class App extends Component {
     const { height, width, grid } = this.state;
 
     return (
-      <div className="App">
-        <h1 className="Header">Mario Level Builder</h1>
-        <Dimensions buildLevel={this._buildLevel} />
-        <LevelBuilder
-          height={height}
-          width={width}
-          grid={grid}
-          onClickCell={this._onClickCell}
-          onSubmit={this._downloadLevel}
-          onUpdateElement={this._onUpdateElement}
-        />
-        <SchemaInfo />
+      <div className="Background" style={{ backgroundImage: `url(${bg})` }}>
+        <div className="App">
+          <h1 className="Header">Mario Level Builder</h1>
+          <Dimensions buildLevel={this._buildLevel} />
+          <LevelBuilder
+            height={height}
+            width={width}
+            grid={grid}
+            onClickCell={this._onClickCell}
+            onSubmit={this._downloadLevel}
+            onUpdateElement={this._onUpdateElement}
+          />
+          <SchemaInfo />
+        </div>
       </div>
     );
   }
