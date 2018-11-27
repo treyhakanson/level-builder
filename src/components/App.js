@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import "highlight.js/styles/github.css";
 
+import { ITEM_INDEX, WARP_PIPE_INDEX } from "../constants";
 import { gridToXML } from "../utils/xml";
 import LevelBuilder from "./LevelBuilder";
 import SchemaInfo from "./SchemaInfo";
 import Dimensions from "./Dimensions";
 
-import bg from "../assets/bg.png";
 import "../styles/App.css";
 
 class App extends Component {
@@ -39,16 +39,27 @@ class App extends Component {
 
   _onClickCell = (activeType, i, j) => {
     let gridCopy = this._buildLevelGrid(true);
+    let newCell = {};
 
-    if (activeType > 11) {
-      gridCopy[i][j].items = gridCopy[i][j].items || [];
-      gridCopy[i][j].items.push(activeType - 12);
-      gridCopy[i][j].collidable = true;
-    } else {
-      gridCopy[i][j].type = activeType;
-      gridCopy[i][j].collidable = true;
+    if (activeType >= ITEM_INDEX) {
+      newCell.items = gridCopy[i][j].items || [];
+      newCell.items.push(activeType - ITEM_INDEX);
+      newCell.OffsetX = 0;
+      newCell.OffsetY = 0;
+    } else if (activeType !== 0) {
+      newCell.type = activeType;
+      newCell.OffsetX = 0;
+      newCell.OffsetY = 0;
     }
 
+    if (activeType === WARP_PIPE_INDEX) {
+      newCell.Pipe = {
+        WarpId: 1,
+        WarpDest: ""
+      };
+    }
+
+    gridCopy[i][j] = newCell;
     this.setState({ grid: gridCopy });
   };
 
@@ -66,7 +77,12 @@ class App extends Component {
 
   _onUpdateElement = (i, j, key, value) => {
     let gridCopy = this._buildLevelGrid(true);
-    gridCopy[i][j][key] = value;
+    const [key1, key2] = key.split(".");
+    if (key2) {
+      gridCopy[i][j][key1][key2] = value;
+    } else {
+      gridCopy[i][j][key1] = value;
+    }
     this.setState({ grid: gridCopy });
   };
 
@@ -74,7 +90,7 @@ class App extends Component {
     const { height, width, grid } = this.state;
 
     return (
-      <div className="Background" style={{ backgroundImage: `url(${bg})` }}>
+      <div className="Background">
         <div className="App">
           <h1 className="Header">Mario Level Builder</h1>
           <Dimensions buildLevel={this._buildLevel} />

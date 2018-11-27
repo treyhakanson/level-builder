@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 
-import { SOURCES } from "../constants";
+import { SOURCES, ITEM_INDEX } from "../constants";
 import GridCell from "./GridCell";
 import AttributeEditor from "./AttributeEditor";
 
@@ -77,9 +77,9 @@ export default class LevelBuilder extends Component {
             ))}
           </div>
           <p>Elements</p>
-          {this._renderSources(0, 12)}
+          {this._renderSources(0, ITEM_INDEX)}
           <p>Items</p>
-          {this._renderSources(12, SOURCES.length)}
+          {this._renderSources(ITEM_INDEX, SOURCES.length)}
           <AttributeEditor grid={grid} onUpdateElement={onUpdateElement} />
           <button
             className="Btn DownloadLevel"

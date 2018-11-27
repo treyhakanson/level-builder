@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import { SOURCES } from "../constants";
+import { SOURCES, ITEM_INDEX } from "../constants";
 
 export default class Element extends Component {
   static propTypes = {
@@ -35,7 +35,17 @@ export default class Element extends Component {
 
   _updateField = (key, value) => {
     const { row, column, onUpdateElement } = this.props;
-    this.setState({ [key]: { ...this.state[key], value } });
+    const [key1, key2] = key.split(".");
+    let obj = { ...this.state[key1] };
+    if (key2) {
+      obj.value[key2] = value;
+    } else {
+      obj.value = value;
+    }
+    console.log(key, key1, obj);
+    this.setState({ ...this.state, [key1]: obj }, () => {
+      console.log(this.state);
+    });
     onUpdateElement(row, column, key, value);
   };
 
@@ -54,6 +64,7 @@ export default class Element extends Component {
 
     const { value, type } = this.state[key];
     const fieldProps = {
+      className: "Inpt",
       name: key,
       value,
       onChange: ({ target: { value } }) => this._updateField(key, value)
@@ -63,44 +74,66 @@ export default class Element extends Component {
     switch (type) {
       case "boolean":
         field = (
-          <select {...fieldProps}>
-            <option value={true}>True</option>
-            <option value={false}>False</option>
-          </select>
+          <div className="Element__Field" key={key}>
+            <label htmlFor={key}>{key}</label>
+            <select {...fieldProps}>
+              <option value={true}>True</option>
+              <option value={false}>False</option>
+            </select>
+          </div>
         );
+        break;
+      case "object":
+        field = Object.entries(value).map(([innerKey, value]) => {
+          const compoundKey = `${key}.${innerKey}`;
+          let innerFieldProps = { ...fieldProps };
+          innerFieldProps.name = compoundKey;
+          innerFieldProps.value = value;
+          innerFieldProps.onChange = ({ target: { value } }) =>
+            this._updateField(compoundKey, value);
+          return (
+            <div className="Element__Field" key={compoundKey}>
+              <label htmlFor={compoundKey}>{compoundKey}</label>
+              <input {...innerFieldProps} type="text" />
+            </div>
+          );
+        });
         break;
       case "array":
         field = (
-          <div>
-            {value.map((value, i) => (
-              <div key={i} className="Well--small Element__Item">
-                <img
-                  src={SOURCES[value + 12]}
-                  alt={`item[${value}]`}
-                  className="Element__ItemImage"
-                />
-                <span
-                  className="Element__Remove"
-                  onClick={() => this._removeElement(key, value, i)}
-                >
-                  x
-                </span>
-              </div>
-            ))}
+          <div className="Element__Field" key={key}>
+            <label htmlFor={key}>{key}</label>
+            <div>
+              {value.map((value, i) => (
+                <div key={i} className="Well--small Element__Item">
+                  <img
+                    src={SOURCES[value + ITEM_INDEX]}
+                    alt={`item[${value}]`}
+                    className="Element__ItemImage"
+                  />
+                  <span
+                    className="Element__Remove"
+                    onClick={() => this._removeElement(key, value, i)}
+                  >
+                    x
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         );
         break;
       default:
-        field = <input {...fieldProps} type="text" />;
+        field = (
+          <div className="Element__Field" key={key}>
+            <label htmlFor={key}>{key}</label>
+            <input {...fieldProps} type="text" />
+          </div>
+        );
         break;
     }
 
-    return (
-      <div className="Element__Field" key={key}>
-        <label htmlFor={key}>{key}</label>
-        {field}
-      </div>
-    );
+    return field;
   };
 
   render() {

@@ -2,21 +2,24 @@ function itemToXML(type) {
   return "<Item>" + `<ItemType>${type}</ItemType>` + "</Item>";
 }
 
-function cellToXML({
-  type,
-  row,
-  column,
-  items = [],
-  offsetX = 0,
-  offsetY = 0
-}) {
+function objectToXML(obj) {
+  let xml = "";
+  for (let [key, value] of Object.entries(obj)) {
+    if (typeof value === "object") {
+      value = objectToXML(value);
+    }
+    xml += `<${key}>${value}</${key}>`;
+  }
+  return xml;
+}
+
+function cellToXML({ type, row, column, items = [], ...props }) {
   return (
     "<Item>" +
     `<EntityType>${type}</EntityType>` +
     `<Row>${row}</Row>` +
     `<Column>${column}</Column>` +
-    `<OffsetX>${offsetX}</OffsetX>` +
-    `<OffsetY>${offsetY}</OffsetY>` +
+    objectToXML(props) +
     "<EntityItems>" +
     items.map(item => itemToXML(item)).join("\n") +
     "</EntityItems>" +

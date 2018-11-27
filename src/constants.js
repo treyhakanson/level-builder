@@ -10,6 +10,7 @@ import greenKoopaImg from "./assets/green-koopa-img.png";
 import goombaImg from "./assets/goomba-img.png";
 import hiddenImg from "./assets/hidden-img.png";
 import flagImg from "./assets/flag-img.png";
+import warpPipeImg from "./assets/warp-pipe-img.png";
 import redMushroomImg from "./assets/red-mushroom-img.png";
 import greenMushroomImg from "./assets/green-mushroom-img.png";
 import starmanImg from "./assets/starman-img.png";
@@ -29,13 +30,17 @@ export const SOURCES = [
   goombaImg,
   hiddenImg,
   flagImg,
-  // Item indexes (start at 12)
+  warpPipeImg,
+  // Item indexes (start at 13)
   greenMushroomImg,
   redMushroomImg,
   coinImg,
   fireImg,
   starmanImg
 ];
+
+export const WARP_PIPE_INDEX = 12;
+export const ITEM_INDEX = 13;
 
 export const LEVEL_EXAMPLE = `
 <?xml version="1.0" encoding="utf-8"?>

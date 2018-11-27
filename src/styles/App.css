@@ -19,9 +19,7 @@ body {
 }
 
 .Background {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  background-color: rgb(18, 10, 177);
 }
 
 .App {
@@ -220,8 +218,8 @@ body {
 }
 
 .AttributeEditor__ElementCol--image img {
-  width: 30px;
-  height: 30px;
+  width: 30px !important;
+  height: 30px !important;
   height: 100%;
   width: 100%;
 }
@@ -229,8 +227,13 @@ body {
 .Element__Field {
   align-self: stretch;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.Element__Field label {
+  margin-right: 15px;
 }
 
 .Element__Item {
