@@ -182,7 +182,7 @@ body {
 .TypeSelection__Img:hover {
   cursor: pointer;
   opacity: 1;
-  trnasition: 150ms all;
+  transition: 150ms all;
 }
 
 .TypeSelection__Img--active {
@@ -233,7 +233,7 @@ body {
 }
 
 .Element__Field label {
-  margin-right: 15px;
+  margin-right: var(--spacing);
 }
 
 .Element__Item {
@@ -266,4 +266,37 @@ body {
 .Element__Remove:hover {
   cursor: pointer;
   opacity: 0.75;
+}
+
+.DownloadLevel {
+  margin-right: var(--spacing);
+}
+
+.SavedLevel {
+  border-radius: 3px;
+  box-shadow: var(--shadow);
+  padding: var(--spacing);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--spacing);
+  transition: 150ms all;
+}
+
+.SavedLevel:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 15px 4px rgba(32, 32, 32, 0.15);
+  transition: 200ms all;
+}
+
+.SavedLevel__Element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.SavedLevel__Element img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
 }

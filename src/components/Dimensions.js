@@ -3,38 +3,41 @@ import PropTypes from "prop-types";
 
 export default class Dimensions extends Component {
   static propTypes = {
-    buildLevel: PropTypes.func.isRequired
-  };
-
-  state = {
-    height: 0,
-    width: 0
+    buildLevel: PropTypes.func.isRequired,
+    setHeight: PropTypes.func.isRequired,
+    setWidth: PropTypes.func.isRequired,
+    height: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired
   };
 
   _setWidth = ({ target: { value } }) => {
-    this.setState({ width: value });
+    const { setWidth } = this.props;
+    setWidth(value);
   };
 
   _setHeight = ({ target: { value } }) => {
-    this.setState({ height: value });
+    const { setHeight } = this.props;
+    setHeight(value);
   };
 
   _onSubmit = () => {
     const { buildLevel } = this.props;
-    const { height, width } = this.state;
-    buildLevel(height, width);
+    buildLevel();
   };
 
   render() {
+    const { height, width } = this.props;
+
     return (
       <fieldset className="Well">
-        <h3 className="Dimensions__Text">Dimensions:</h3>
+        <h3 className="Dimensions__Text">Dimensions</h3>
         <div className="Dimensions__Fields">
           <input
             type="number"
             className="Inpt Dimensions__Width"
             name="width"
             onChange={this._setWidth}
+            value={width}
           />
           <label htmlFor="width" className="Inpt__Label">
             Columns
@@ -45,6 +48,7 @@ export default class Dimensions extends Component {
             className="Inpt Dimensions__Height"
             name="height"
             onChange={this._setHeight}
+            value={height}
           />
           <label htmlFor="width" className="Inpt__Label">
             Rows

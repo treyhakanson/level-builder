@@ -10,7 +10,8 @@ export default class LevelBuilder extends Component {
     grid: PropTypes.array.isRequired,
     onClickCell: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onUpdateElement: PropTypes.func.isRequired
+    onUpdateElement: PropTypes.func.isRequired,
+    onSaveLevel: PropTypes.func.isRequired
   };
 
   state = {
@@ -50,7 +51,13 @@ export default class LevelBuilder extends Component {
   };
 
   render() {
-    const { grid, onClickCell, onSubmit, onUpdateElement } = this.props;
+    const {
+      grid,
+      onClickCell,
+      onSubmit,
+      onUpdateElement,
+      onSaveLevel
+    } = this.props;
     const { activeType } = this.state;
     let content;
 
@@ -88,6 +95,14 @@ export default class LevelBuilder extends Component {
             disabled={!grid.length}
           >
             Download Level
+          </button>
+          <button
+            className="Btn SaveLevel"
+            type="button"
+            onClick={onSaveLevel}
+            disabled={!grid.length}
+          >
+            Save Level
           </button>
         </Fragment>
       );

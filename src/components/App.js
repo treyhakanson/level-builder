@@ -6,6 +6,7 @@ import { gridToXML } from "../utils/xml";
 import LevelBuilder from "./LevelBuilder";
 import SchemaInfo from "./SchemaInfo";
 import Dimensions from "./Dimensions";
+import SavedLevels from "./SavedLevels";
 
 import "../styles/App.css";
 
@@ -13,7 +14,8 @@ class App extends Component {
   state = {
     width: 0,
     height: 0,
-    grid: []
+    grid: [],
+    savedLevels: JSON.parse(localStorage.getItem("savedLevels") || "[]")
   };
 
   _buildLevel = (height, width) => {
@@ -86,14 +88,63 @@ class App extends Component {
     this.setState({ grid: gridCopy });
   };
 
+  _onSaveLevel = () => {
+    const { savedLevels, grid } = this.state;
+    const height = grid.length;
+    const width = grid[0].length;
+    let overview = {};
+
+    for (let i = 1; i < ITEM_INDEX; i++) {
+      overview[i] = 0;
+    }
+
+    grid.forEach(row => {
+      row.forEach(({ type }) => {
+        if (!type) {
+          return;
+        }
+        overview[type] += 1;
+      });
+    });
+
+    this.setState(
+      { savedLevels: [...savedLevels, { height, width, overview, grid }] },
+      () => {
+        localStorage.setItem(
+          "savedLevels",
+          JSON.stringify(this.state.savedLevels)
+        );
+      }
+    );
+  };
+
+  _onSelectLevel = savedLevel => {
+    const { height, width, grid } = savedLevel;
+    this.setState({ height, width, grid });
+  };
+
+  _setHeight = height => {
+    this.setState({ height });
+  };
+
+  _setWidth = width => {
+    this.setState({ width });
+  };
+
   render() {
-    const { height, width, grid } = this.state;
+    const { height, width, grid, savedLevels } = this.state;
 
     return (
       <div className="Background">
         <div className="App">
           <h1 className="Header">Mario Level Builder</h1>
-          <Dimensions buildLevel={this._buildLevel} />
+          <Dimensions
+            buildLevel={this._buildLevel}
+            setWidth={this._setWidth}
+            setHeight={this._setHeight}
+            height={height}
+            width={width}
+          />
           <LevelBuilder
             height={height}
             width={width}
@@ -101,6 +152,11 @@ class App extends Component {
             onClickCell={this._onClickCell}
             onSubmit={this._downloadLevel}
             onUpdateElement={this._onUpdateElement}
+            onSaveLevel={this._onSaveLevel}
+          />
+          <SavedLevels
+            savedLevels={savedLevels}
+            onSelectLevel={this._onSelectLevel}
           />
           <SchemaInfo />
         </div>
