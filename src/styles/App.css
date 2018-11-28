@@ -300,3 +300,15 @@ body {
   height: 20px;
   margin-right: 5px;
 }
+
+.Help h3 {
+  margin-bottom: var(--spacing);
+}
+
+.Help__Section {
+  margin-bottom: var(--spacing);
+}
+
+.Help__List {
+  padding-left: 35px;
+}

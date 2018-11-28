@@ -7,6 +7,7 @@ import LevelBuilder from "./LevelBuilder";
 import SchemaInfo from "./SchemaInfo";
 import Dimensions from "./Dimensions";
 import SavedLevels from "./SavedLevels";
+import Help from "./Help";
 
 import "../styles/App.css";
 
@@ -158,6 +159,7 @@ class App extends Component {
             savedLevels={savedLevels}
             onSelectLevel={this._onSelectLevel}
           />
+          <Help />
           <SchemaInfo />
         </div>
       </div>
