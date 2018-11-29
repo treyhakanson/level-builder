@@ -2,4 +2,4 @@
 
 A React application to build levels for the Mario game created in CSE 3902.
 
-[Link Application](https://treyhakanson.github.io/level-builder);
+[Link Application](https://treyhakanson.github.io/level-builder) (You will likely need to clear your browser cache)
