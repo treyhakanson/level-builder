@@ -19,10 +19,9 @@ class App extends Component {
     savedLevels: JSON.parse(localStorage.getItem("savedLevels") || "[]")
   };
 
-  _buildLevel = (height, width) => {
-    this.setState({ height, width }, () => {
-      this.setState({ grid: this._buildLevelGrid() });
-    });
+  _buildLevel = () => {
+    const { height, width } = this.state;
+    this.setState({ grid: this._buildLevelGrid() });
   };
 
   _buildLevelGrid = (copy = false) => {
