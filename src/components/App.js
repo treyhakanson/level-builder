@@ -44,10 +44,9 @@ class App extends Component {
     let newCell = {};
 
     if (activeType >= ITEM_INDEX) {
-      newCell.items = gridCopy[i][j].items || [];
+      newCell = { ...gridCopy[i][j] };
+      newCell.items = newCell.items || [];
       newCell.items.push(activeType - ITEM_INDEX);
-      newCell.OffsetX = 0;
-      newCell.OffsetY = 0;
     } else if (activeType !== 0) {
       newCell.type = activeType;
       newCell.OffsetX = 0;
@@ -62,6 +61,7 @@ class App extends Component {
     }
 
     gridCopy[i][j] = newCell;
+    console.log(newCell);
     this.setState({ grid: gridCopy });
   };
 

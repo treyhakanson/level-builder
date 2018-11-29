@@ -16,6 +16,9 @@ import greenMushroomImg from "./assets/green-mushroom-img.png";
 import starmanImg from "./assets/starman-img.png";
 import fireImg from "./assets/fire-img.png";
 import coinImg from "./assets/coin-img.png";
+import booImg from "./assets/boo-img.png";
+import rexImg from "./assets/rex-img.png";
+import bulletBillImg from "./assets/bullet-bill-img.png";
 
 export const SOURCES = [
   emptyImg,
@@ -31,7 +34,10 @@ export const SOURCES = [
   hiddenImg,
   flagImg,
   warpPipeImg,
-  // Item indexes (start at 13)
+  bulletBillImg,
+  booImg,
+  rexImg,
+  // Item indexes (start at 16)
   greenMushroomImg,
   redMushroomImg,
   coinImg,
@@ -40,7 +46,7 @@ export const SOURCES = [
 ];
 
 export const WARP_PIPE_INDEX = 12;
-export const ITEM_INDEX = 13;
+export const ITEM_INDEX = 16;
 
 export const LEVEL_EXAMPLE = `
 <?xml version="1.0" encoding="utf-8"?>

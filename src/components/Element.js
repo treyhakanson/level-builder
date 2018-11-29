@@ -28,7 +28,7 @@ export default class Element extends Component {
     for (let [key, value] of Object.entries(props.element)) {
       this.state[key] = {
         value,
-        type: typeof value
+        type: Array.isArray(value) ? "array" : typeof value
       };
     }
   }
@@ -42,10 +42,7 @@ export default class Element extends Component {
     } else {
       obj.value = value;
     }
-    console.log(key, key1, obj);
-    this.setState({ ...this.state, [key1]: obj }, () => {
-      console.log(this.state);
-    });
+    this.setState({ ...this.state, [key1]: obj });
     onUpdateElement(row, column, key, value);
   };
 
@@ -58,6 +55,7 @@ export default class Element extends Component {
   };
 
   _renderField = key => {
+    console.log("Render field", key, this.state[key]);
     if (!this.state[key]) {
       return;
     }

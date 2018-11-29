@@ -6,8 +6,9 @@ export default class Dimensions extends Component {
     buildLevel: PropTypes.func.isRequired,
     setHeight: PropTypes.func.isRequired,
     setWidth: PropTypes.func.isRequired,
-    height: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
   };
 
   _setWidth = ({ target: { value } }) => {
